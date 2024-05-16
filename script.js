@@ -28,3 +28,16 @@ function getRoundResults(userOption) {
     return `It's a tie! Both chose ${userOption}`;
   }
 }
+
+const playerScoreSpanElement = document.getElementById('player-score');
+const computerScoreSpanElement = document.getElementById('computer-score');
+const roundResultsMsg = document.getElementById('results-msg');
+
+function showResults(userOption) {
+  getRoundResults(userOption);
+  playerScoreSpanElement.textContent = +playerScore;
+  computerScoreSpanElement.textContent = +computerScore;
+  roundResultsMsg.innerText = `${getRoundResults(userOption)}`;
+}
+
+showResults('Rock');
