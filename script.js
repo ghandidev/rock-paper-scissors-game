@@ -21,23 +21,59 @@ function getRoundResults(userOption) {
   if (hasPlayerWonTheRound(userOption, computerResult)) {
     playerScore++;
     return `Player wins! ${userOption} beats ${computerResult}`;
-  } else if (!hasPlayerWonTheRound(userOption, computerResult)) {
+  } else if (computerResult === userOption) {
+    return `It's a tie! Both chose ${userOption}`;
+  } else {
     computerScore++;
     return `Computer wins! ${computerResult} beats ${userOption}`;
-  } else {
-    return `It's a tie! Both chose ${userOption}`;
   }
 }
 
 const playerScoreSpanElement = document.getElementById('player-score');
 const computerScoreSpanElement = document.getElementById('computer-score');
 const roundResultsMsg = document.getElementById('results-msg');
+const winnerMsgElement = document.getElementById('winner-msg');
+const optionsContainer = document.querySelector('.options-container');
+const resetGameBtn = document.getElementById('reset-game-btn');
+const rockBtn = document.getElementById('rock-btn');
+const paperBtn = document.getElementById('paper-btn');
+const scissorsBtn = document.getElementById('scissors-btn');
 
 function showResults(userOption) {
-  getRoundResults(userOption);
-  playerScoreSpanElement.textContent = +playerScore;
-  computerScoreSpanElement.textContent = +computerScore;
-  roundResultsMsg.innerText = `${getRoundResults(userOption)}`;
+  roundResultsMsg.innerText = getRoundResults(userOption);
+  computerScoreSpanElement.innerText = computerScore;
+  playerScoreSpanElement.innerText = playerScore;
+  if (playerScore > 2) {
+    winnerMsgElement.textContent = `Player has won the game!`;
+    resetGameBtn.style.display = 'block';
+    optionsContainer.style.display = 'none';
+  } else if (computerScore > 2) {
+    winnerMsgElement.textContent = `Computer has won the game!!`;
+    resetGameBtn.style.display = 'block';
+    optionsContainer.style.display = 'none';
+  }
 }
 
-showResults('Rock');
+function resetGame() {
+  computerScore = 0;
+  playerScore = 0;
+  playerScoreSpanElement.innerText = computerScore;
+  computerScoreSpanElement.innerText = playerScore;
+  roundResultsMsg.innerText = '';
+  winnerMsgElement.innerText = '';
+  optionsContainer.style.display = 'block';
+  resetGameBtn.style.display = 'none';
+}
+rockBtn.addEventListener('click', function () {
+  showResults('Rock');
+});
+
+paperBtn.addEventListener('click', function () {
+  showResults('Paper');
+});
+
+scissorsBtn.addEventListener('click', function () {
+  showResults('Scissors');
+});
+
+resetGameBtn.addEventListener('click', resetGame);
